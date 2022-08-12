@@ -1,10 +1,11 @@
 import postApi from './api/postApi'
-import { initPagination, initSearch, renderPostList, renderPagination } from './utils'
+import { initPagination, initSearch, renderPostList, renderPagination, toast } from './utils'
 
 async function handleFiterChange(fiterName, filterValue) {
   try {
     const url = new URL(window.location)
-    url.searchParams.set(fiterName, filterValue)
+
+    if (fiterName) url.searchParams.set(fiterName, filterValue)
 
     if (fiterName === 'title_like') url.searchParams.set('_page', 1)
 
@@ -20,6 +21,19 @@ async function handleFiterChange(fiterName, filterValue) {
   }
 }
 
+function registerPostDeleteEvent() {
+  document.addEventListener('post-delete', async (event) => {
+    try {
+      const post = event.detail
+      await postApi.remove(post.id)
+
+      await handleFiterChange()
+    } catch (error) {
+      toast.error(error.message)
+    }
+  })
+}
+
 //main
 ;(async () => {
   try {
@@ -32,7 +46,9 @@ async function handleFiterChange(fiterName, filterValue) {
     history.pushState({}, '', url)
 
     const queryParams = url.searchParams
-    console.log(queryParams)
+    // console.log(queryParams)
+
+    registerPostDeleteEvent()
 
     // attach click event for links
     initPagination({

@@ -42,7 +42,6 @@ export function initPagination({ elementId, defaultParams, onChange }) {
       const totalPages = ulPagination.dataset.totalPages
 
       if (page < totalPages) onChange?.(page + 1)
-      console.log('asd')
     })
   }
 }

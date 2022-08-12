@@ -2,7 +2,8 @@ import postApi from './api/postApi'
 import { initPostForm, toast } from './utils'
 
 async function handlePostFormSubmit(formValues) {
-  // console.log('submit form parent', formValues)
+  console.log('submit form parent', formValues)
+
   try {
     // check add / edit mode
     // check id in formValues
@@ -16,7 +17,7 @@ async function handlePostFormSubmit(formValues) {
     // redirect to detail page
     setTimeout(() => {
       window.location.assign(`/post-detail.html?id=${savedPost.id}`)
-    }, 2000)
+    }, 1000)
   } catch (error) {
     console.log(error)
     toast.error(`Error : ${error.message}`)
